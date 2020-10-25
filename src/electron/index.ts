@@ -9,5 +9,10 @@ app.whenReady().then(() => {
         resizable: true,
     });
     window.maximize();
-    window.loadFile(path.join(__dirname, "..", "..", "index.html"));
+
+    if (process.env.NODE_ENV === "dev") {
+        window.loadURL("http://localhost:8080");
+    } else {
+        window.loadFile(path.join(__dirname, "..", "..", "index.html"));
+    }
 });

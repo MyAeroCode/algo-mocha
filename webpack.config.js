@@ -1,3 +1,5 @@
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+
 module.exports = {
     mode: "development",
 
@@ -20,8 +22,33 @@ module.exports = {
 
     module: {
         rules: [
-            // .ts나 .tsx 확장자를 ts-loader가 트랜스파일
+            // .ts .tsx
             { test: /\.tsx?$/, loader: "ts-loader" },
+
+            //
+            // .css
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+
+            //
+            // .ttf
+            {
+                test: /\.(ttf|eot|woff|woff2)$/,
+                loader: "file-loader",
+                options: {
+                    name: "fonts/[name].[ext]",
+                },
+            },
         ],
     },
+
+    devServer: {
+        contentBase: "./",
+        publicPath: "/dist/react",
+        hot: true,
+    },
+
+    plugins: [new MonacoWebpackPlugin()],
 };
