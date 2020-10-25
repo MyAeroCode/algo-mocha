@@ -1,0 +1,33 @@
+{
+    "name": "algo-mocha",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/electron/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon --watch ./src/**/* --watch ./index.html -e ts,tsx,js,jsx,json,html --exec \"tsc & webpack & electron ./dist/electron/index.js\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MyAeroCode/algo-mocha.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/MyAeroCode/algo-mocha/issues"
+    },
+    "homepage": "https://github.com/MyAeroCode/algo-mocha#readme",
+    "dependencies": {
+        "electron": "^10.1.5",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1"
+    },
+    "devDependencies": {
+        "@types/react": "^16.9.53",
+        "@types/react-dom": "^16.9.8",
+        "nodemon": "^2.0.6",
+        "ts-loader": "^8.0.7",
+        "webpack": "^5.2.0",
+        "webpack-cli": "^4.1.0"
+    }
+}
