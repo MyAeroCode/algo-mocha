@@ -21,11 +21,14 @@
     },
     "homepage": "https://github.com/MyAeroCode/algo-mocha#readme",
     "dependencies": {
+        "@material-ui/styles": "^4.10.0",
         "antd": "^4.7.3",
         "electron": "^10.1.5",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
-        "react-monaco-editor": "^0.40.0"
+        "react-icons": "^3.11.0",
+        "react-monaco-editor": "^0.40.0",
+        "typedi": "^0.8.0"
     },
     "devDependencies": {
         "@types/react": "^16.9.53",
