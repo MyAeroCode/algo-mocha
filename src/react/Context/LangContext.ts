@@ -1,4 +1,4 @@
-import Container, { Service } from "typedi";
+import { Service } from "typedi";
 
 /**
  * 에디터에서 지원하는 언어의 식별자들

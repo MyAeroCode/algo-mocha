@@ -1,5 +1,5 @@
 import React from "react";
-import { defaultLangContext, LangContext } from "./SupportLangService";
+import { defaultLangContext, LangContext } from "./LangContext";
 
 /**
  * 글로벌 컨텍스트 타입
@@ -26,4 +26,4 @@ export const Context = React.createContext<Context>(contextDefaultValue);
 
 //
 // 하위 모듈 export.
-export * from "./SupportLangService";
+export * from "./LangContext";
