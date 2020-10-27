@@ -1,7 +1,6 @@
 import Container from "typedi";
 import { IconBaseProps } from "react-icons";
 import { CodeEditorPage } from "./CodeEditorPage";
-import { MainPage } from "./MainPage";
 import { TestCasePage } from "./TestCasePage";
 import { ToolConfigurePage } from "./ToolConfigurePage";
 
@@ -30,7 +29,6 @@ export interface SidePageBarElement {
  * 사이드 바에 삽입될 요소들의 배열.
  */
 export const sidePageBarElements: SidePageBarElement[] = [
-    Container.get(MainPage),
     Container.get(CodeEditorPage),
     Container.get(TestCasePage),
     Container.get(ToolConfigurePage),
