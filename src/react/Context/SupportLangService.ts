@@ -11,6 +11,29 @@ export enum Lang {
 }
 
 /**
+ * 선택된 언어에 관한 컨텍스트
+ */
+export type LangContext = {
+    /**
+     * 현재 선택된 프로그래밍 언어.
+     */
+    lang: Lang;
+
+    /**
+     * 현재 코드 내용.
+     */
+    code: string;
+};
+
+/**
+ * 선택된 언어에 관한 컨텍스트의 기본 값
+ */
+export const defaultLangContext: LangContext = {
+    lang: Lang.CPP,
+    code: "",
+};
+
+/**
  * 에디터에서 지원하는 언어 정보
  */
 export interface LangInfo {
@@ -48,7 +71,6 @@ export class SupportLangService {
      * 주어진 언어 키에 해당하는 언어의 이름을 가져온다.
      */
     getNameOf(langKey: string): string {
-        console.log(Container.get(SupportLangService));
         return this.langInfos.find((v) => v.key === langKey)!.name;
     }
 }
