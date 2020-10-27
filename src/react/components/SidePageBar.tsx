@@ -58,7 +58,7 @@ export function SidePageBar() {
                         key={i.toString()}
                         icon={<v.icon />}
                         className={classes.sideMenuBarElement}
-                        style={{ height: "5vh" }}
+                        style={{ height: "46px", marginTop: "0" }}
                         onClick={() => setState({ page: i })}
                     >
                         {v.toolTip}
