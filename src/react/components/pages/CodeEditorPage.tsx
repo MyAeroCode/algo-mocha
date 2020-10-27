@@ -6,7 +6,7 @@ import { VscCode } from "react-icons/vsc";
 import Container, { Service } from "typedi";
 import { SidePageBarElement } from ".";
 import { makeStyles } from "@material-ui/styles";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Context, SupportLangService } from "../../Context";
 import SubMenu from "antd/lib/menu/SubMenu";
 
@@ -91,12 +91,6 @@ export class CodeEditorPage implements SidePageBarElement {
                             onChange={(newCode) =>
                                 context.setContext({ ...context, code: newCode })
                             }
-                        />
-                        {/* 토스트 라이브러리 컨테이너 */}
-                        <ToastContainer
-                            position={"bottom-right"}
-                            hideProgressBar={true}
-                            autoClose={2500}
                         />
                     </div>
                 )}
