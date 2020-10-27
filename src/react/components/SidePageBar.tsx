@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Menu } from "antd";
 import { makeStyles } from "@material-ui/styles";
 import { sidePageBarElements } from "./pages";
+import { Context, contextDefaultValue } from "../Context";
 
 /**
  * 사이드 페이지 바 스타일
@@ -42,32 +43,34 @@ const useStyles = makeStyles(() => ({
  */
 export function SidePageBar() {
     const classes = useStyles();
-    const [state, setState] = useState({ page: 0 });
+    const [state, setState] = useState({ page: 0, ...contextDefaultValue });
     const SelectedPage = sidePageBarElements[state.page].page;
     return (
-        <div className={classes.sideMenuBarWrap}>
-            <Menu
-                defaultSelectedKeys={["0"]}
-                className={classes["sideMenuBar"]}
-                mode="inline"
-                theme="dark"
-                inlineCollapsed={true}
-            >
-                {sidePageBarElements.map((v, i) => (
-                    <Menu.Item
-                        key={i.toString()}
-                        icon={<v.icon />}
-                        className={classes.sideMenuBarElement}
-                        style={{ height: "46px", marginTop: "0" }}
-                        onClick={() => setState({ page: i })}
-                    >
-                        {v.toolTip}
-                    </Menu.Item>
-                ))}
-            </Menu>
-            <div>
-                <SelectedPage />
+        <Context.Provider value={{ ...state, setContext: setState as any }}>
+            <div className={classes.sideMenuBarWrap}>
+                <Menu
+                    defaultSelectedKeys={["0"]}
+                    className={classes["sideMenuBar"]}
+                    mode="inline"
+                    theme="dark"
+                    inlineCollapsed={true}
+                >
+                    {sidePageBarElements.map((v, i) => (
+                        <Menu.Item
+                            key={i.toString()}
+                            icon={<v.icon />}
+                            className={classes.sideMenuBarElement}
+                            style={{ height: "46px", marginTop: "0" }}
+                            onClick={() => setState({ ...state, page: i })}
+                        >
+                            {v.toolTip}
+                        </Menu.Item>
+                    ))}
+                </Menu>
+                <div>
+                    <SelectedPage />
+                </div>
             </div>
-        </div>
+        </Context.Provider>
     );
 }
