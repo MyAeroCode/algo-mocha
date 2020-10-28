@@ -167,10 +167,11 @@ export class TestCasePage implements SidePageBarElement {
                                 height={"calc( 100vh - 46px )"}
                                 width={"calc( (100vw - 85px) / 2 )"}
                                 theme={"vs-dark"}
-                                language={"text"}
+                                language={"plaintext"}
                                 options={{
                                     fontSize: 16,
                                     lineHeight: 24,
+                                    wordBasedSuggestions: false,
                                 }}
                                 value={context.testCases[state.selected].input}
                                 onChange={function handleInputChanged(newInput) {
@@ -182,10 +183,11 @@ export class TestCasePage implements SidePageBarElement {
                                 height={"calc( 100vh - 46px )"}
                                 width={"calc( (100vw - 85px) / 2 )"}
                                 theme={"vs-dark"}
-                                language={"text"}
+                                language={"plaintext"}
                                 options={{
                                     fontSize: 16,
                                     lineHeight: 24,
+                                    wordBasedSuggestions: false,
                                 }}
                                 value={context.testCases[state.selected].expect}
                                 onChange={function handleExpectChanged(newExpect) {

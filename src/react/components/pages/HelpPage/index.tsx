@@ -43,9 +43,10 @@ export class HelpPage implements SidePageBarElement {
                         fontSize: 16,
                         lineHeight: 24,
                         readOnly: true,
+                        wordBasedSuggestions: false,
                     }}
                     theme={"vs-dark"}
-                    language={"text"}
+                    language={"plaintext"}
                     value={docs[state.selected].contents}
                 />
             </div>
