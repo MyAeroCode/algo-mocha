@@ -6,12 +6,14 @@ app.whenReady().then(() => {
         webPreferences: {
             nodeIntegration: true,
         },
-        resizable: true,
+        width: 1200,
+        height: 800,
+        resizable: false,
     });
-    window.maximize();
 
     if (process.env.NODE_ENV === "dev") {
         window.loadURL("http://localhost:8080");
+        window.webContents.openDevTools();
     } else {
         window.loadFile(path.join(__dirname, "..", "..", "index.html"));
     }

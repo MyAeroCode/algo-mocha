@@ -48,8 +48,9 @@ export function SidePageBar() {
     return (
         <Context.Provider value={{ ...state, setContext: setState as any }}>
             <div className={classes.sideMenuBarWrap}>
+                {/* 페이지 목록 */}
                 <Menu
-                    defaultSelectedKeys={["0"]}
+                    selectedKeys={[state.page.toString()]}
                     className={classes["sideMenuBar"]}
                     mode="inline"
                     theme="dark"
@@ -60,13 +61,14 @@ export function SidePageBar() {
                             key={i.toString()}
                             icon={<v.icon />}
                             className={classes.sideMenuBarElement}
-                            style={{ height: "46px", marginTop: "0" }}
+                            style={{ height: "46px", margin: "0" }}
                             onClick={() => setState({ ...state, page: i })}
                         >
                             {v.toolTip}
                         </Menu.Item>
                     ))}
                 </Menu>
+                {/* 선택된 페이지 */}
                 <div>
                     <SelectedPage />
                 </div>
