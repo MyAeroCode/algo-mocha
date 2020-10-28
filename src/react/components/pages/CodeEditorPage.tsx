@@ -7,8 +7,9 @@ import Container, { Service } from "typedi";
 import { SidePageBarElement } from ".";
 import { makeStyles } from "@material-ui/styles";
 import { toast } from "react-toastify";
-import { Context, SupportLangService } from "../../Context";
+import { Context } from "../../Context";
 import SubMenu from "antd/lib/menu/SubMenu";
+import { SupportLangService } from "../../Services/SupportLangSerivce";
 
 /**
  * 코드 에디터 페이지 디자인
@@ -40,7 +41,7 @@ export class CodeEditorPage implements SidePageBarElement {
                             className={classes["menu-bar"]}
                             theme="dark"
                             mode="horizontal"
-                            selectedKeys={[context.lang]}
+                            selectedKeys={[context.lang.langCode]}
                             selectable={true}
                         >
                             {/* 프로그래밍 언어 변경 */}
@@ -48,22 +49,26 @@ export class CodeEditorPage implements SidePageBarElement {
                                 className={classes["right-align"]}
                                 icon={<SettingOutlined />}
                                 key={"1"}
-                                title={langService.getNameOf(context.lang)}
+                                title={context.lang.langName}
                                 style={{ width: 120 }}
                             >
                                 <Menu.ItemGroup title="Language">
                                     {langService.getList().map((lang) => (
                                         <Menu.Item
-                                            key={lang.key}
+                                            key={lang.langCode}
                                             onClick={() => {
                                                 context.setContext({
                                                     ...context,
-                                                    lang: lang.key,
+                                                    lang: langService.getLangByCode(
+                                                        lang.langCode,
+                                                    ),
                                                 });
-                                                toast.dark(`🦄 Appiled To ${lang.name}`);
+                                                toast.dark(
+                                                    `🦄 Appiled To ${lang.langName}`,
+                                                );
                                             }}
                                         >
-                                            {lang.name}
+                                            {lang.langName}
                                         </Menu.Item>
                                     ))}
                                 </Menu.ItemGroup>
@@ -86,7 +91,7 @@ export class CodeEditorPage implements SidePageBarElement {
                                 lineHeight: 24,
                             }}
                             theme={"vs-dark"}
-                            language={context.lang}
+                            language={context.lang.langCode}
                             value={context.code}
                             onChange={(newCode) =>
                                 context.setContext({ ...context, code: newCode })
