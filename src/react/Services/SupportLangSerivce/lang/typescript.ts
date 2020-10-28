@@ -5,7 +5,7 @@ import { SupportLang } from ".";
 export class LangTypeScript implements SupportLang {
     langCode = "ts";
     langName = "TypeScript";
-    test() {
+    async test() {
         return true;
     }
 }

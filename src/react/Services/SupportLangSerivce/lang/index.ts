@@ -11,7 +11,7 @@ import { LangTypeScript } from "./typescript";
 export interface SupportLang {
     readonly langCode: string;
     readonly langName: string;
-    test(testCase: TestCase): boolean;
+    test(testCase: TestCase & { idx: number }): Promise<boolean>;
 }
 
 /**

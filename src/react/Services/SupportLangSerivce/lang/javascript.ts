@@ -5,7 +5,7 @@ import { SupportLang } from ".";
 export class LangJavaScript implements SupportLang {
     langCode = "js";
     langName = "JavaScript";
-    test() {
+    async test() {
         return true;
     }
 }

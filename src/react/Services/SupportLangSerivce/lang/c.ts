@@ -5,7 +5,7 @@ import { SupportLang } from ".";
 export class LangC implements SupportLang {
     langCode = "c";
     langName = "C";
-    test() {
+    async test() {
         return true;
     }
 }

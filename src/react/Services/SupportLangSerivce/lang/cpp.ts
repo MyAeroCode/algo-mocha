@@ -5,7 +5,7 @@ import { SupportLang } from ".";
 export class LangCPP implements SupportLang {
     langCode = "cpp";
     langName = "C++";
-    test() {
+    async test() {
         return true;
     }
 }
