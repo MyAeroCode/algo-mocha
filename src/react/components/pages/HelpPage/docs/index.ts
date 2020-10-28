@@ -25,4 +25,4 @@ export interface Doc {
 /**
  * 도큐먼트 문서 목록
  */
-export const docs: Doc[] = [Container.get(ProjectDoc), Container.get(BuildToolsDoc)];
+export const docs: Doc[] = [Container.get(BuildToolsDoc), Container.get(ProjectDoc)];
