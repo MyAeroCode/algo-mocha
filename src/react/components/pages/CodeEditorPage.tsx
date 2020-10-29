@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React from "react";
 import MonacoEditor from "react-monaco-editor";
 import { Menu } from "antd";
 import { CaretRightOutlined, SettingOutlined } from "@ant-design/icons";
@@ -7,7 +7,7 @@ import Container, { Service } from "typedi";
 import { SidePageBarElement } from ".";
 import { makeStyles } from "@material-ui/styles";
 import { toast } from "react-toastify";
-import { Context } from "../../Context";
+import { Context, getDefaultTestResult } from "../../Context";
 import SubMenu from "antd/lib/menu/SubMenu";
 import { SupportLangService } from "../../Services/SupportLangSerivce";
 import Electron = require("electron");
@@ -37,14 +37,23 @@ ipcRenderer.on(Channels.BUILD_RES, (event, error) => {
     //
     // 빌드가 실패했다면 중단한다.
     if (error) {
+        toast.dark(`💔 Build Failed.`);
         console.error(error);
         return;
     }
 
     //
+    // 테스트의 개수만큼 결과 슬롯을 할당
+    contextRef.testResults = [];
+    for (let i = 0; i <= contextRef.testCases.length; i++) {
+        contextRef.testResults.push(getDefaultTestResult());
+    }
+    contextRef.setContext({ ...contextRef });
+
+    //
     // 각 테스트에 대해, 테스트 요청 메세지 송신
     contextRef.testCases.forEach((testCase, idx) => {
-        const testRequestMessage = contextRef.lang.createTestRequestMessage(
+        const testRequestMessage: TestRequestMessage = contextRef.lang.createTestRequestMessage(
             idx,
             testCase,
         );
@@ -56,7 +65,8 @@ ipcRenderer.on(Channels.BUILD_RES, (event, error) => {
  * 단일 테스트 완료 메세지 수신
  */
 ipcRenderer.on(Channels.TEST_RES, (event, message: TestResponseMessage) => {
-    console.log(message);
+    contextRef.testResults[message.idx + 1] = message;
+    contextRef.setContext({ ...contextRef });
 });
 
 /**
