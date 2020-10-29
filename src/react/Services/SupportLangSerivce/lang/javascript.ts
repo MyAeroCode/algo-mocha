@@ -11,7 +11,7 @@ import { BuildRequestMessage, TestRequestMessage } from "../../../../common/type
 
 @Service()
 export class LangJavaScript implements SupportLang {
-    readonly langCode = "js";
+    readonly langCode = "javascript";
     readonly langName = "JavaScript";
 
     getSourceFilePath(): string {
