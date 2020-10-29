@@ -133,7 +133,7 @@ export class TestCasePage implements SidePageBarElement {
                                             //
                                             // 마지막 테스트를 삭제하는 경우.
                                             else if (lastTestCaseIdx === focused) {
-                                                testCases.splice(state.selected, 1);
+                                                testCases.pop();
                                                 setState({
                                                     ...state,
                                                     selected: state.selected - 1,
@@ -143,9 +143,10 @@ export class TestCasePage implements SidePageBarElement {
                                             //
                                             // 처음 또는 중간의 테스트를 삭제하는 경우.
                                             else {
+                                                testCases.splice(state.selected, 1);
                                                 const nextTestCases = Object.assign(
                                                     [] as TestCase[],
-                                                    testCases.splice(state.selected, 1),
+                                                    testCases,
                                                 );
                                                 setContext({
                                                     ...context,
