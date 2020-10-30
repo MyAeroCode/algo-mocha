@@ -10,19 +10,19 @@ export class BuildToolsDoc implements Doc {
     title = "Build Tools";
     contents = stripIndent`
         # C
-            compile: gcc -o test-n test-n.cpp
-            execute: test-n
+            compile: gcc -o exec.exe code.c
+            execute: exec.exe
 
         # C++
-            compile: g++ -o test-n test-n.cpp
-            execute: test-n
+            compile: g++ -o exec.exe code.cpp
+            execute: exec.exe
 
         # JavaScript
-            compile: 
-            execute: node test-n.js
+            compile: cp code.js exec.js
+            execute: node exec.js
 
         # TypeScript
-            compile: tsc test-n.ts
-            execute: node test-n.js
+            compile: tsc code.ts --outFile exec.js
+            execute: node exec.js
     `;
 }
