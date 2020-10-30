@@ -49,20 +49,53 @@ ipcMain.on(Channels.BUILD_REQ, (event, message: BuildRequestMessage) => {
  */
 ipcMain.on(Channels.TEST_REQ, (event, message: TestRequestMessage) => {
     const [program, programArg] = message.execCmd.split(" ");
-    const process = cp.spawn(program, [programArg]);
+    const subProcess = cp.spawn(program, [programArg]);
     let actual = "";
-    process.stdin.write(message.input + "\n", console.log);
-    process.stdout.on("data", (chunk) => {
+    subProcess.stdin.write(message.input + "\n");
+    subProcess.stdout.on("data", (chunk) => {
         actual += chunk.toString();
     });
-    process.stdout.on("close", () => {
+
+    /**
+     * 중복 메세지 전송 방지를 위한 플래그
+     */
+    let isSended = false;
+
+    /**
+     * 주어진 body를 actual로 갖는 응답 메세지를 전송한다.
+     */
+    function sendResponse(body: string) {
+        if (isSended) return;
+        isSended = true;
+
+        //
+        // 입력 대기중에는, 표준입력 스트림을 닫아야 프로그램이 꺼진다.
+        if (!subProcess.stdin.destroyed) {
+            subProcess.stdin.destroy();
+        }
+        subProcess.kill("SIGKILL");
+
+        //
+        // 응답 메세지를 만들고 반환한다.
         const response: TestResponseMessage = {
             idx: message.idx,
             input: message.input,
             expect: message.expect,
-            actual: actual.trim(),
+            actual: body,
         };
         event.sender.send(Channels.TEST_RES, response);
-        process.kill(0);
+    }
+
+    //
+    // 타임아웃
+    const timeoutHandler = setTimeout(() => {
+        sendResponse("timeout");
+    }, 5000);
+
+    //
+    // 정상종료
+    subProcess.stdout.on("close", () => {
+        clearTimeout(timeoutHandler);
+        sendResponse(actual.trim());
     });
 });
