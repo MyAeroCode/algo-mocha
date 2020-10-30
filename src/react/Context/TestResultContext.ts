@@ -18,6 +18,11 @@ export type TestResultsContext = {
      * 가장 최근에 수행된 테스트 결과
      */
     testResults: TestResult[];
+
+    /**
+     * 현재 테스트 진행 여부
+     */
+    inProgress: boolean;
 };
 
 /**
@@ -36,4 +41,5 @@ export function getDefaultTestResult(): TestResult {
  */
 export const defaultTestResultsContext: TestResultsContext = {
     testResults: [getDefaultTestResult()],
+    inProgress: false,
 };
