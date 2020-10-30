@@ -1,12 +1,15 @@
 import { Progress } from "antd";
 import React from "react";
 import { toast } from "react-toastify";
+import Container from "typedi";
+import { sidePageBarElements } from "..";
 import {
     Channels,
     TestRequestMessage,
     TestResponseMessage,
 } from "../../../../common/types";
 import { Context, getDefaultTestResult } from "../../../Context";
+import { TestOutputPage } from "../TestOutputPage";
 const { ipcRenderer }: typeof Electron = window.require("electron");
 
 interface Props {}
@@ -70,20 +73,25 @@ export class TestProgressDisplay extends React.Component<Props, State> {
                 contextRef.testResults[message.idx + 1] = message;
                 contextRef.setContext({ ...contextRef });
                 if (nextDone === contextRef.testCases.length) {
-                    contextRef.setContext({
-                        ...contextRef,
-                        inProgress: false,
-                    });
-
                     const failedCnt =
                         contextRef.testResults.filter((r) => r.actual !== r.expect)
                             .length - 1;
 
+                    //
+                    // 토스트를 띄운다.
                     if (failedCnt === 0) {
                         toast.dark(`✔ All test passed.`);
                     } else {
                         toast.error(`❌ ${failedCnt} test failed.`);
                     }
+
+                    //
+                    // 상세결과 페이지로 이동한다.
+                    contextRef.setContext({
+                        ...contextRef,
+                        inProgress: false,
+                        page: sidePageBarElements.indexOf(Container.get(TestOutputPage)),
+                    });
                 }
                 return { done: nextDone };
             });

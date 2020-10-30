@@ -1,5 +1,6 @@
 import React from "react";
 import { defaultLangContext, LangContext } from "./LangContext";
+import { defaultPageContext, PageContext } from "./PageContext";
 import { defaultTestCaseContext, TestCaseContext } from "./TestCaseContext";
 import { defaultTestResultsContext, TestResultsContext } from "./TestResultContext";
 
@@ -13,7 +14,8 @@ export type Context = {
     setContext: React.Dispatch<React.SetStateAction<Context>>;
 } & LangContext &
     TestCaseContext &
-    TestResultsContext;
+    TestResultsContext &
+    PageContext;
 
 /**
  * 기본 컨텍스트 값.
@@ -23,6 +25,7 @@ export const contextDefaultValue: Context = {
     ...defaultLangContext,
     ...defaultTestCaseContext,
     ...defaultTestResultsContext,
+    ...defaultPageContext,
 };
 
 /**
@@ -35,3 +38,4 @@ export const Context = React.createContext<Context>(contextDefaultValue);
 export * from "./LangContext";
 export * from "./TestCaseContext";
 export * from "./TestResultContext";
+export * from "./PageContext";

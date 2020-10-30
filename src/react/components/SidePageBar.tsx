@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => ({
  */
 export function SidePageBar() {
     const classes = useStyles();
-    const [state, setState] = useState({ page: 0, ...contextDefaultValue });
+    const [state, setState] = useState({ ...contextDefaultValue });
 
     /**
      * 해당 컴포넌트를 생성한다.
