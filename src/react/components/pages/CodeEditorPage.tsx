@@ -80,114 +80,115 @@ export class CodeEditorPage implements SidePageBarElement {
         const langService = Container.get(SupportLangService);
         const classes = useStyles();
 
-        return (
-            <Context.Consumer>
-                {(context) => {
-                    contextRef = context;
+        /**
+         * 컨텍스트를 사용하여 컴포넌트를 생성한다.
+         */
+        function createComponentViaContext(context: Context) {
+            contextRef = context;
 
-                    /**
-                     * 프로그래밍 언어를 변경할 수 있는 버튼을 생성한다.
-                     */
-                    function createLanguageSelector() {
-                        /**
-                         * 프로그래밍 언어 정보로 하나의 탭을 생성한다.
-                         */
-                        function createLanguageTab(lang: SupportLang) {
-                            function handleClick() {
-                                context.setContext({
-                                    ...context,
-                                    lang: langService.getLangByCode(lang.langCode),
-                                });
-                                toast.dark(`🦄 Appiled To ${lang.langName}`);
-                            }
-
-                            return (
-                                <Menu.Item key={lang.langCode} onClick={handleClick}>
-                                    {lang.langName}
-                                </Menu.Item>
-                            );
-                        }
-
-                        return (
-                            <SubMenu
-                                className={classes["right-align"]}
-                                icon={<SettingOutlined />}
-                                key={"1"}
-                                title={context.lang.langName}
-                                style={{ width: 120 }}
-                            >
-                                <Menu.ItemGroup title="Language">
-                                    {langService.getList().map(createLanguageTab)}
-                                </Menu.ItemGroup>
-                            </SubMenu>
-                        );
-                    }
-
-                    /**
-                     * 테스트를 실행하는 버튼을 생성한다.
-                     */
-                    function createExecutor() {
-                        function handleClick() {
-                            ipcRenderer.send(
-                                Channels.BUILD_REQ,
-                                context.lang.createBuildRequestMessage({
-                                    code: context.code,
-                                }),
-                            );
-                        }
-
-                        return (
-                            <Menu.Item
-                                className={classes["right-align"]}
-                                icon={<CaretRightOutlined />}
-                                key="2"
-                                onClick={handleClick}
-                            >
-                                Execute
-                            </Menu.Item>
-                        );
-                    }
-
-                    /**
-                     * 코드를 작성할 수 있는 에디터를 생성한다.
-                     */
-                    function createEditor() {
-                        function onChange(newCode: string) {
-                            context.setContext({ ...context, code: newCode });
-                        }
-                        return (
-                            <MonacoEditor
-                                height={"calc( 100vh - 46px )"}
-                                width={"calc( 100vw - 85px )"}
-                                options={{
-                                    fontSize: 16,
-                                    lineHeight: 24,
-                                }}
-                                theme={"vs-dark"}
-                                language={context.lang.langCode}
-                                value={context.code}
-                                onChange={onChange}
-                            />
-                        );
+            /**
+             * 프로그래밍 언어를 변경할 수 있는 버튼을 생성한다.
+             */
+            function createLanguageSelector() {
+                /**
+                 * 프로그래밍 언어 정보로 하나의 탭을 생성한다.
+                 */
+                function createLanguageTab(lang: SupportLang) {
+                    function handleClick() {
+                        context.setContext({
+                            ...context,
+                            lang: langService.getLangByCode(lang.langCode),
+                        });
+                        toast.dark(`🦄 Appiled To ${lang.langName}`);
                     }
 
                     return (
-                        <div>
-                            <Menu
-                                className={classes["menu-bar"]}
-                                theme="dark"
-                                mode="horizontal"
-                                selectedKeys={[context.lang.langCode]}
-                                selectable={true}
-                            >
-                                {createLanguageSelector()}
-                                {createExecutor()}
-                            </Menu>
-                            {createEditor()}
-                        </div>
+                        <Menu.Item key={lang.langCode} onClick={handleClick}>
+                            {lang.langName}
+                        </Menu.Item>
                     );
-                }}
-            </Context.Consumer>
-        );
+                }
+
+                return (
+                    <SubMenu
+                        className={classes["right-align"]}
+                        icon={<SettingOutlined />}
+                        key={"1"}
+                        title={context.lang.langName}
+                        style={{ width: 120 }}
+                    >
+                        <Menu.ItemGroup title="Language">
+                            {langService.getList().map(createLanguageTab)}
+                        </Menu.ItemGroup>
+                    </SubMenu>
+                );
+            }
+
+            /**
+             * 테스트를 실행하는 버튼을 생성한다.
+             */
+            function createExecutor() {
+                function handleClick() {
+                    ipcRenderer.send(
+                        Channels.BUILD_REQ,
+                        context.lang.createBuildRequestMessage({
+                            code: context.code,
+                        }),
+                    );
+                }
+
+                return (
+                    <Menu.Item
+                        className={classes["right-align"]}
+                        icon={<CaretRightOutlined />}
+                        key="2"
+                        onClick={handleClick}
+                    >
+                        Execute
+                    </Menu.Item>
+                );
+            }
+
+            /**
+             * 코드를 작성할 수 있는 에디터를 생성한다.
+             */
+            function createEditor() {
+                function onChange(newCode: string) {
+                    context.setContext({ ...context, code: newCode });
+                }
+                return (
+                    <MonacoEditor
+                        height={"calc( 100vh - 46px )"}
+                        width={"calc( 100vw - 85px )"}
+                        options={{
+                            fontSize: 16,
+                            lineHeight: 24,
+                        }}
+                        theme={"vs-dark"}
+                        language={context.lang.langCode}
+                        value={context.code}
+                        onChange={onChange}
+                    />
+                );
+            }
+
+            return (
+                <div>
+                    <Menu
+                        className={classes["menu-bar"]}
+                        theme="dark"
+                        mode="horizontal"
+                        selectedKeys={[context.lang.langCode]}
+                        selectable={true}
+                    >
+                        {createLanguageSelector()}
+                        {createExecutor()}
+                    </Menu>
+                    {createEditor()}
+                </div>
+            );
+        }
+
+        return <Context.Consumer>{createComponentViaContext}</Context.Consumer>;
     }
 }

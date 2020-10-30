@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu } from "antd";
 import { makeStyles } from "@material-ui/styles";
-import { sidePageBarElements } from "./pages";
+import { SidePageBarElement, sidePageBarElements } from "./pages";
 import { Context, contextDefaultValue } from "../Context";
 
 /**
@@ -44,11 +44,46 @@ const useStyles = makeStyles(() => ({
 export function SidePageBar() {
     const classes = useStyles();
     const [state, setState] = useState({ page: 0, ...contextDefaultValue });
-    const SelectedPage = sidePageBarElements[state.page].page;
-    return (
-        <Context.Provider value={{ ...state, setContext: setState as any }}>
+
+    /**
+     * 해당 컴포넌트를 생성한다.
+     */
+    function createComponent() {
+        /**
+         * 선택된 페이지
+         */
+        const SelectedPage = sidePageBarElements[state.page].page;
+
+        /**
+         * 페이지 이동 탭을 생성한다.
+         */
+        function createSideBarElements() {
+            /**
+             * 클릭 시, 페이지를 이동하는 버튼을 생성한다.
+             */
+            function createSideBarElement(elem: SidePageBarElement, idx: number) {
+                function handleClick() {
+                    setState({ ...state, page: idx });
+                }
+
+                return (
+                    <Menu.Item
+                        key={idx.toString()}
+                        icon={<elem.icon />}
+                        className={classes.sideMenuBarElement}
+                        style={{ height: "46px", margin: "0" }}
+                        onClick={handleClick}
+                    >
+                        {elem.toolTip}
+                    </Menu.Item>
+                );
+            }
+
+            return sidePageBarElements.map(createSideBarElement);
+        }
+
+        return (
             <div className={classes.sideMenuBarWrap}>
-                {/* 페이지 목록 */}
                 <Menu
                     selectedKeys={[state.page.toString()]}
                     className={classes["sideMenuBar"]}
@@ -56,23 +91,16 @@ export function SidePageBar() {
                     theme="dark"
                     inlineCollapsed={true}
                 >
-                    {sidePageBarElements.map((v, i) => (
-                        <Menu.Item
-                            key={i.toString()}
-                            icon={<v.icon />}
-                            className={classes.sideMenuBarElement}
-                            style={{ height: "46px", margin: "0" }}
-                            onClick={() => setState({ ...state, page: i })}
-                        >
-                            {v.toolTip}
-                        </Menu.Item>
-                    ))}
+                    {createSideBarElements()}
                 </Menu>
-                {/* 선택된 페이지 */}
-                <div>
-                    <SelectedPage />
-                </div>
+                <SelectedPage />
             </div>
+        );
+    }
+
+    return (
+        <Context.Provider value={{ ...state, setContext: setState as any }}>
+            {createComponent()}
         </Context.Provider>
     );
 }
