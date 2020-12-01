@@ -8,6 +8,7 @@ import {
 } from "../common/types";
 import fs from "fs-extra";
 import cp from "child_process";
+import os from "os";
 
 app.whenReady().then(() => {
     const window = new BrowserWindow({
@@ -81,7 +82,11 @@ ipcMain.on(Channels.TEST_REQ, (event, message: TestRequestMessage) => {
             idx: message.idx,
             input: message.input,
             expect: message.expect,
-            actual: body,
+            actual: body
+                .trim()
+                .split(os.EOL)
+                .map((line) => line.trim())
+                .join(os.EOL),
         };
         event.sender.send(Channels.TEST_RES, response);
     }
