@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { VscFiles } from "react-icons/vsc";
 import { Service } from "typedi";
-import { SidePageBarElement } from ".";
-import { Context, TestCase, getDefaultTestCase } from "../../Context";
+import { SidePageBarElement } from "..";
+import { Context, TestCase, getDefaultTestCase } from "../../../Context";
 import { Menu } from "antd";
 import MonacoEditor, { ChangeHandler } from "react-monaco-editor";
 import { makeStyles } from "@material-ui/styles";

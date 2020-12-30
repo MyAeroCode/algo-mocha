@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { VscOutput } from "react-icons/vsc";
 import { Service } from "typedi";
-import { SidePageBarElement } from ".";
-import { Context, TestResult } from "../../Context";
+import { SidePageBarElement } from "..";
+import { Context, TestResult } from "../../../Context";
 import { Menu } from "antd";
 import { makeStyles } from "@material-ui/styles";
 import { CheckOutlined, StopOutlined } from "@ant-design/icons";
